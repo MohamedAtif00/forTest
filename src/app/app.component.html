@@ -31,7 +31,7 @@
                 aria-label="default input example"
                 [(ngModel)]="power"
               />
-              <button class="btn btn-danger" type="button" id="button-addon2" (click)="power =''">clear</button>
+              <button class="btn btn-danger" type="button" id="button-addon2" (click)="power=''">clear</button>
             </div>
             <div class="col-3 input-group" style="width: 25%;" >
               <input
@@ -65,14 +65,14 @@
         <div class="row">
           <div class="col-12 d-flex flex-row flex-wrap">
             <div
-              *ngFor="let item of hero"
+              *ngFor="let item of heroServ.hero"
               class="card ms-4 mb-4"
               style="width: 18rem"
               (click)="selectItem(item)"
               [ngStyle]="{'background-color':item.power >=1 && item.power < 10?'#1C5D99'
                                                 :item.power >= 10 && item.power <20?'#639FAB':
-                                                item.power >=20 && item.power <30?'#BBCDE5':'E85F5C',
-                          'border':selectedHero?.name == item.name?'5px solid white':''                     
+                                                item.power >=20 && item.power <30?'#BBCDE5':'#E85F5C',
+                          'border':selectedHero?.id == item.id?'5px solid white':''                     
                         } "
             >
               <img [src]="item.image" class="card-img-top" [alt]="item.name" height="200px"/>

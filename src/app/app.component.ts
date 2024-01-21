@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HeroService } from './Hero.Service';
+import { hero } from './hero.model';
 declare var AOS : any
-
-
-interface hero
-{
-  name:string,
-  power:number,
-  image:string | null
-}
-
 
 @Component({
   selector: 'app-root',
@@ -16,7 +10,6 @@ interface hero
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{
-  title = 'test';
 
   selectedFile:File | null = null;
   convertedImage:string | null = null;
@@ -26,7 +19,7 @@ export class AppComponent implements OnInit{
   power!:string;
   image!:string|null;
 
-  hero:hero[] = []
+  constructor(public heroServ: HeroService) {}
 
 
   ngOnInit(): void {
@@ -41,39 +34,28 @@ export class AppComponent implements OnInit{
 
   create()
   {
-    this.hero.push({name:this.name,power:Number.parseInt(this.power),image:this.convertedImage})
-    console.log(this.image);
-    
-    
+    this.heroServ.CreateHero({ name: this.name, power:Number.parseInt(this.power), image: this.convertedImage })
   }
 
   Update()
   {
-    if(this.selectedHero)
-    {
-      let index =  this.hero.findIndex(x =>x.name == this.selectedHero?.name)
-      if(index >=0)
-      {
-        this.hero[index].name = this.name;
-        this.hero[index].power = Number.parseInt(this.power);
-        this.image === ''? null:this.hero[index].image = this.convertedImage;
-      }
-
-    }
+    if (this.selectedHero)
+        this.heroServ.UpdateHero({id:this.selectedHero.id,name:this.name,power:Number.parseInt(this.power),image:this.convertedImage});    
   }
+
 
   Delete()
   {
     if(this.selectedHero)
     {
-      let index =  this.hero.findIndex(x =>x.name == this.selectedHero?.name)
-      if(index >=0)
-      {
-        this.hero.splice(index,1)
-      }
-
+      this.heroServ.DeleteHero(this.selectedHero.id)
     }
   }
+
+
+
+
+
 
   convertImage(event:any)
   {
@@ -89,7 +71,7 @@ export class AppComponent implements OnInit{
     this.power = hero.power.toString()
     this.image = hero.image
 
-    console.log(this.selectedHero);
+    //console.log(this.selectedHero);
     
   }
 

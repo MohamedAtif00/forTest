@@ -1,0 +1,4 @@
+input:not([placeholder="image" i])
+{
+    color: red;
+}
